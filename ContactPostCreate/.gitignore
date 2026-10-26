@@ -1,0 +1,76 @@
+# Build Results
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ReSharper
+_ReSharper*/
+*.ReSharper
+
+# Rider
+.idea/
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+
+# Publish Output
+publish/
+
+# Logs
+*.log
+
+# Test Results
+TestResults/
+
+# Azure
+*.PublishSettings
+
+# Generated files
+GeneratedFiles/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Plugin Registration Tool backups
+*.dll.config
+*.cache
+
+# CRM Plugin Registration Artifacts
+PluginPackages/
+
+# User-specific files
+*.userprefs
+
+# Temporary files
+*.tmp
+*.temp
+
+# Backup files
+*.bak
+*.old
+
+# Visual Studio Code
+.vscode/
+
+# Local settings
+appsettings.Development.json
+local.settings.json
+
+# Strong Name Key (optional)
+*.snk
+
+# If you don't want to commit CRM SDK DLLs
+packages/
+
+# Ignore build outputs
+**/bin/
+**/obj/

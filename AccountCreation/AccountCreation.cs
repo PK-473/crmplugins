@@ -19,6 +19,19 @@ namespace Nsquare.Crm.Customizations.Plugin
             IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
             IOrganizationServiceFactory serviceFactory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
             IOrganizationService service = serviceFactory.CreateOrganizationService(context.UserId);
+
+            if (context.InputParameters.Contains("Target") &&
+               context.InputParameters["Target"] is Entity)
+            {
+                Entity contact = (Entity)context.InputParameters["Target"];
+
+                if (contact.Contains("firstname"))
+                {
+                    string firstName = contact.GetAttributeValue<string>("firstname");
+
+                    tracer.Trace($"Testing Contact firstname: {firstName}");
+                }
+            }
         }
     }
 }
