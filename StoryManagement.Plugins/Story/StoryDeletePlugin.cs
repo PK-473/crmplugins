@@ -8,8 +8,9 @@ namespace StoryManagement.Plugins.Story
 {
     /// <summary>
     /// Task 6: when a Story is deleted, delete its Story Items first.
-    /// Registered on: sm_story | Delete | Pre-operation (20) | Synchronous
-    /// Pre Image: StoryDeleteImage (Story Name)
+    /// Registered on: sm_story | Delete | PRE-VALIDATION (10) | Synchronous
+    /// (Pre-validation is needed because the Restrict Delete relationship is checked before Pre-operation.)
+    /// Pre Image: StoryDeleteImage (Story Name) - optional at this stage
     /// </summary>
     public class StoryDeletePlugin : PluginBase
     {
@@ -23,10 +24,18 @@ namespace StoryManagement.Plugins.Story
                 return;
             }
 
-            // The Pre Image gives us the Story Name for clear messages
+            // The Pre Image gives us the Story Name for clear messages.
+            // Pre-validation may not provide an image, so we fall back to reading the record
+            // (it still exists at this point).
             Entity pre = context.PreEntityImages.Contains(ImageNames.StoryDeleteImage)
                 ? context.PreEntityImages[ImageNames.StoryDeleteImage] : null;
             string storyName = pre == null ? null : pre.GetAttributeValue<string>(StoryFields.Name);
+            if (string.IsNullOrWhiteSpace(storyName))
+            {
+                Entity current = service.Retrieve(StoryFields.LogicalName, story.Id,
+                    new Microsoft.Xrm.Sdk.Query.ColumnSet(StoryFields.Name));
+                storyName = current.GetAttributeValue<string>(StoryFields.Name);
+            }
             if (string.IsNullOrWhiteSpace(storyName)) { storyName = "this story"; }
 
             // Retrieve the related items (only their ids are needed)
